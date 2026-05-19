@@ -16,16 +16,10 @@ const {
   getVoiceConnection
 } = require("@discordjs/voice");
 
-const OpenAI = require("openai");
-
 const fs = require("fs");
 const path = require("path");
 
 const OWNER_ID = "527442009405784088";
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
 
 const client = new Client({
   intents: [
@@ -239,31 +233,7 @@ client.on("messageCreate", async message => {
 
   }
 
-  const response =
-    await openai.chat.completions.create({
-
-      model: "gpt-4.1-mini",
-
-      messages: [
-
-        {
-          role: "system",
-          content:
-            "You are a friendly Discord AI."
-        },
-
-        {
-          role: "user",
-          content: text
-        }
-
-      ]
-
-    });
-
-  message.reply(
-    response.choices[0].message.content
-  );
+  message.reply("AI OK");
 
 });
 
