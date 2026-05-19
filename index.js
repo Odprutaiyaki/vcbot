@@ -63,7 +63,7 @@ function playMusic(connection) {
 
     player.play(resource);
 
-    console.log(`再生中: ${song} 😺`);
+    console.log("Playing: " + song);
   }
 
   player.on(AudioPlayerStatus.Idle, () => {
@@ -77,17 +77,17 @@ function playMusic(connection) {
 
 client.once("ready", async () => {
 
-  console.log(`${client.user.tag} 起動 😺`);
+  console.log(client.user.tag + " started");
 
   const commands = [
 
     new SlashCommandBuilder()
       .setName("join")
-      .setDescription("VC参加"),
+      .setDescription("Join VC"),
 
     new SlashCommandBuilder()
       .setName("leave")
-      .setDescription("VC退出")
+      .setDescription("Leave VC")
 
   ].map(command => command.toJSON());
 
@@ -102,7 +102,7 @@ client.once("ready", async () => {
       { body: commands }
     );
 
-    console.log("コマンド登録完了 😼");
+    console.log("Commands loaded");
 
   } catch (error) {
 
@@ -121,9 +121,11 @@ client.on("interactionCreate", async interaction => {
       interaction.member.voice.channel;
 
     if (!channel) {
+
       return interaction.reply(
-        "先にVC入って 😾"
+        "Join VC first"
       );
+
     }
 
     const connection =
@@ -136,7 +138,7 @@ client.on("interactionCreate", async interaction => {
 
     playMusic(connection);
 
-    interaction.reply("VC参加した 😺");
+    interaction.reply("Joined VC");
   }
 
   if (interaction.commandName === "leave") {
@@ -144,7 +146,7 @@ client.on("interactionCreate", async interaction => {
     if (interaction.user.id !== OWNER_ID) {
 
       return interaction.reply({
-        content: "れくん専用 😾",
+        content: "Owner only",
         ephemeral: true
       });
 
@@ -160,13 +162,13 @@ client.on("interactionCreate", async interaction => {
       connection.destroy();
 
       interaction.reply(
-        "VC退出した 😺"
+        "Left VC"
       );
 
     } else {
 
       interaction.reply(
-        "VC入ってない 😿"
+        "Not in VC"
       );
 
     }
@@ -182,7 +184,7 @@ client.on("messageCreate", async message => {
   if (message.author.id !== OWNER_ID) {
 
     return message.reply(
-      "れくん専用Bot 😾"
+      "Owner only"
     );
 
   }
@@ -202,7 +204,7 @@ client.on("messageCreate", async message => {
     if (!member.voice.channel) {
 
       return message.reply(
-        "先にVC入って 😾"
+        "Join VC first"
       );
 
     }
@@ -219,7 +221,7 @@ client.on("messageCreate", async message => {
     playMusic(connection);
 
     return message.reply(
-      "VC参加した 😺"
+      "Joined VC"
     );
   }
 
@@ -233,7 +235,7 @@ client.on("messageCreate", async message => {
         {
           role: "system",
           content:
-            "猫っぽく優しく話すDiscord AI"
+            "You are a friendly Discord AI."
         },
 
         {
