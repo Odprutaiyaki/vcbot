@@ -34,7 +34,10 @@ const client = new Client({
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
     GatewayIntentBits.DirectMessages
-  ]
+  ],
+
+  partials: ["CHANNEL"]
+
 });
 
 const songsPath = path.join(__dirname, "songs");
